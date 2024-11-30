@@ -44,6 +44,6 @@ async def code_review_handler(
     )
     await bot.send_message(
         chat_id=message.chat.id,
-        text="Документ взять в работу, распознование началось....",
+        text="Документ взят в работу, распознование началось....",
         reply_to_message_id=message.message_id
     )
