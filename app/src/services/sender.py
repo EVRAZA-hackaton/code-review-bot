@@ -1,3 +1,5 @@
+import typing as tp
+
 import requests
 
 from app.src.model.file import File
@@ -45,7 +47,7 @@ class SenderService:
 
         while True:
             texts = self._split_into_chunks(string=main_query, chunks_num=chunks_num)
-            responses = []
+            responses: list[dict[str, tp.Any]] = []
             for chunk in texts:
                 model_instruction = {
                     "model": "mistral-nemo-instruct-2407",
@@ -69,11 +71,17 @@ class SenderService:
                     json=model_instruction,
                 )
                 response = response.json()
-                responses.append(response["choices"][0]["message"]["content"])
+                responses.append(response)
             try:
 
-                answer = "\n".join(responses)
+                answer = "\n".join(
+                    [
+                        response["choices"][0]["message"]["content"]
+                        for response in responses
+                    ]
+                )
                 return answer
+
             except KeyError:
                 chunks_num += 1
                 continue
