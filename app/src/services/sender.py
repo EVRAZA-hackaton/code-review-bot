@@ -101,7 +101,7 @@ class SenderService:
                 }
 
     @property
-    def __get_headers() -> dict[str, str]:
+    def __get_headers(self) -> dict[str, str]:
         """Получаем заголовок"""
         return {
                 "Authorization": config.ai_token,
