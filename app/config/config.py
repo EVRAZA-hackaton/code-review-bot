@@ -13,9 +13,14 @@ class TelegramBotConfig:
 @dataclass
 class Config:
     tg_bot: TelegramBotConfig
-
+    ai_token: str
+    ai_url: str
 
 def load_config() -> Config:
     load_dotenv()
 
-    return Config(tg_bot=TelegramBotConfig(token=getenv("BOT_TOKEN")))
+    return Config(tg_bot=TelegramBotConfig(
+        token=getenv("BOT_TOKEN")),
+        ai_token=getenv("AI_TOKEN"),
+        ai_url=getenv("ai_url")
+    )

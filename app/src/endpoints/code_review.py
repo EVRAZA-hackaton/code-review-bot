@@ -1,5 +1,6 @@
 import io
 from logging import Logger
+import asyncio
 
 from aiogram import Bot, Router
 from aiogram.filters import Command
@@ -34,8 +35,15 @@ async def code_review_handler(
     tg_file = await bot.get_file(message.document.file_id)
     file: io.BytesIO = await bot.download_file(tg_file.file_path)
 
-    report = await code_review_service.code_review(
-        file_path=tg_file.file_path, file=file
+    code_review_service.code_review_async(
+        file_path=tg_file.file_path,
+        file=file,
+        bot=bot,
+        chat_id=message.chat.id,
+        msg_id=message.message_id
     )
-
-    return message.reply_document(report, caption="Отчет по код-ревью")
+    await bot.send_message(
+        chat_id=message.chat.id,
+        text="Документ взят в работу, распознование началось....",
+        reply_to_message_id=message.message_id
+    )

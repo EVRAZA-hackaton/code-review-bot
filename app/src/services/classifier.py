@@ -1,8 +1,12 @@
+import logging
+
 from app.src.model.constants import FileExtensionEnum, PromptEnum
 from app.src.model.directory import Directory
 from app.src.model.file import File
 from app.src.model.project import Project
 
+
+logger = logging.getLogger(__name__)
 
 class ClassifierService:
     def _parse_dir(
@@ -29,4 +33,5 @@ class ClassifierService:
         return current_level_files_enums
 
     async def classify(self, project: Project) -> list[tuple[File, PromptEnum]]:
+        logger.info("Начали классификацию")
         return self._parse_dir(project)
