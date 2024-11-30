@@ -42,4 +42,4 @@ class CodeReviewService:
         classified_items = await self.classifier_service.classify(project)
         answers = await self.sender_service.send(classified_items)
         file = await self.exporter_service.export_to_markdown(answers)
-        self.answer_service.answer(file, chat_id, msg_id, bot)
+        await self.answer_service.answer(file, chat_id, msg_id, bot)
