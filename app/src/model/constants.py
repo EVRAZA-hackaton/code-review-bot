@@ -11,7 +11,3 @@ class PromptEnum(StrEnum):
     CODE_PROMPT = auto()
     CONFIG_PROMPT = auto()
     PROJECT_STRUCTURE_PROMPT = auto()
-
-    # PYTHON_PROMPT = auto()
-    # JS_PROMPT = auto()
-    # C_SHAPR_PROMPT = auto()
