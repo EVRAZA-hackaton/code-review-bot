@@ -1,3 +1,5 @@
+import io
+
 from app.src.services.classifier import ClassifierService
 from app.src.services.parsing import ParsingService
 from app.src.services.pdf import PDFService
@@ -17,5 +19,7 @@ class CodeReviewService:
         self.sender_service = sender_service
         self.pdf_service = pdf_service
 
-    async def code_review(self):
-        ...
+    async def code_review(self, file_path: str, file: io.BytesIO) -> io.BytesIO:
+        project = await self.parsing_service.parse(  # noqa: F841
+            file_path=file_path, file=file
+        )
