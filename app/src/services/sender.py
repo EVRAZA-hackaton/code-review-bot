@@ -1,4 +1,5 @@
 import typing as tp
+import logging
 
 import requests
 
@@ -7,10 +8,13 @@ from app.src.model.constants import PromptEnum
 from app.src.model.prompts import PROMPT_ENUM_TO_PROMPT_VALUE
 
 
+logger = logging.getLogger(__name__)
+
 class SenderService:
     async def send(
         self, files_prompts_configurations: list[tuple[File, PromptEnum]]
     ) -> list[tuple[File, str]]:
+        logger.info("Отправили в сеть, ждем ответа")
         http_token = "luFd5RRFwjlJuPmQbsNppm2iPepEsMQQ"
 
         files_and_responses: list[tuple[File, str]] = []

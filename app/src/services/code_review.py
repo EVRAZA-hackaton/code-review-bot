@@ -1,12 +1,10 @@
 import io
-
 from aiogram.types import BufferedInputFile
 
 from app.src.services.classifier import ClassifierService
 from app.src.services.exporter import ExporterService
 from app.src.services.parsing import ParsingService
 from app.src.services.sender import SenderService
-
 
 class CodeReviewService:
     def __init__(

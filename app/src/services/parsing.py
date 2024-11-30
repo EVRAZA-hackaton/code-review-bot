@@ -13,6 +13,7 @@ logger = logging.getLogger(__name__)
 
 class ParsingService:
     async def parse(self, file_path: str, file: io.BytesIO) -> Project:
+        logger.info("Начали парсинг файла")
         # Определяем имя файла
         file_name = Path(file_path).name
 
