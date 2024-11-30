@@ -61,16 +61,6 @@ class SenderService:
                         prompt=prompt, chunk=chunk, temperature=temperature)
 
                     response = await self.__send_request(session, model_instruction)
-
-                    # response = requests.post(
-                    #     url="http://84.201.152.196:8020/v1/completions",
-                    #     headers={
-                    #         "Authorization": token,
-                    #         "Content-Type": "application/json",
-                    #     },
-                    #     json=model_instruction,
-                    # )
-                    # response = response.json()
                     responses.append(response)
                 try:
                     answer = "\n".join(
