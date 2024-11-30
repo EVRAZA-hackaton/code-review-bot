@@ -70,13 +70,15 @@ class ParsingService:
         for item in directory_path.iterdir():
             if item.is_file():
                 try:
-                        fl = File(
-                            name=item.name,
-                            data=item.read_text(),
-                            extension=self._get_file_extension(item),
-                            file_path=str(item.relative_to(self.root_path)),
-                        )
-                        files.append(fl)
+                        with io.open(item, mode='r', encoding="utf-8") as f:
+                            data = f.read()
+                            fl = File(
+                                name=item.name,
+                                data=data,
+                                extension=self._get_file_extension(item),
+                                file_path=str(item.relative_to(self.root_path)),
+                            )
+                            files.append(fl)
                 except UnicodeDecodeError:
                     logger.warning("файл %s открыть не удалось", item.name)
         return files
