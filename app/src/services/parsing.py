@@ -70,17 +70,15 @@ class ParsingService:
         for item in directory_path.iterdir():
             if item.is_file():
                 try:
-                    with open(item, 'r') as f:
-                        data = f.read()
                     fl = File(
                         name=item.name,
-                        data=data,
+                        data=item.read_text(),
                         extension=self._get_file_extension(item),
                         file_path=str(item.relative_to(self.root_path)),
                     )
                     files.append(fl)
                 except UnicodeDecodeError:
-                    logger.warning("файл %s открыть не удалось", item.name)
+                    logger.warning("файл %s открыть не удалось", item)
         return files
 
     def _get_file_extension(self, file_path: Path) -> FileExtensionEnum:
