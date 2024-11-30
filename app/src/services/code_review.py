@@ -31,7 +31,7 @@ class CodeReviewService:
         file = await self.exporter_service.export_to_markdown(answers)
         return file
 
-    async def code_review_async(self, file_path: str, file: io.BytesIO, bot: Bot, chat_id: int, msg_id: int) -> None:
+    def code_review_async(self, file_path: str, file: io.BytesIO, bot: Bot, chat_id: int, msg_id: int) -> None:
         """Асинхронно запускаем таску на распознование"""
         event_loop = asyncio.get_event_loop()
         event_loop.create_task(self.__code_review_async(file_path, file, bot, chat_id, msg_id))
@@ -43,4 +43,3 @@ class CodeReviewService:
         answers = await self.sender_service.send(classified_items)
         file = await self.exporter_service.export_to_markdown(answers)
         self.answer_service.answer(file, chat_id, msg_id, bot)
-
