@@ -2,12 +2,14 @@ import io
 import tempfile
 import zipfile
 from pathlib import Path
+import logging
 
 from app.src.model.constants import FileExtensionEnum
 from app.src.model.directory import Directory
 from app.src.model.file import File
 from app.src.model.project import Project
 
+logger = logging.getLogger(__name__)
 
 class ParsingService:
     async def parse(self, file_path: str, file: io.BytesIO) -> Project:
@@ -67,14 +69,16 @@ class ParsingService:
         files = []
         for item in directory_path.iterdir():
             if item.is_file():
-                files.append(
-                    File(
-                        name=item.name,
-                        data=item.read_text(),
-                        extension=self._get_file_extension(item),
-                        file_path=str(item.relative_to(self.root_path)),
-                    )
-                )
+                try:
+                        fl = File(
+                            name=item.name,
+                            data=item.read_text(),
+                            extension=self._get_file_extension(item),
+                            file_path=str(item.relative_to(self.root_path)),
+                        )
+                        files.append(fl)
+                except UnicodeDecodeError:
+                    logger.warning("файл %s открыть не удалось", item.name)
         return files
 
     def _get_file_extension(self, file_path: Path) -> FileExtensionEnum:
