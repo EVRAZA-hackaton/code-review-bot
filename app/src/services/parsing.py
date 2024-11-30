@@ -29,6 +29,8 @@ class ParsingService:
             zip_ref.extractall(temp_dir)
             temp_dir = Path(temp_dir)
 
+            self.root_path = temp_dir
+
             # Рекурсивно собираем директории и файлы
             project.files = self._parse_files(temp_dir)
             project.dirs = self._parse_directory(temp_dir)
@@ -42,6 +44,7 @@ class ParsingService:
             name=file_name,
             data=file_data,
             extension=self._get_file_extension(Path(file_name)),
+            file_path=file_name,
         )
         return Project(dirs=[], files=[single_file])
 
@@ -69,6 +72,7 @@ class ParsingService:
                         name=item.name,
                         data=item.read_text(),
                         extension=self._get_file_extension(item),
+                        file_path=str(item.relative_to(self.root_path)),
                     )
                 )
         return files

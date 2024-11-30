@@ -8,7 +8,7 @@ from app.src.model.prompts import PROMPT_ENUM_TO_PROMPT_VALUE
 
 
 class SenderService:
-    def send(
+    async def send(
         self, files_prompts_configurations: list[tuple[File, PromptEnum]]
     ) -> list[tuple[File, str]]:
         http_token = "luFd5RRFwjlJuPmQbsNppm2iPepEsMQQ"
@@ -20,13 +20,13 @@ class SenderService:
             response_for_a_file = self.get_response_from_a_file_with_specific_prompt(
                 token=http_token, file_content=file_content, prompt=prompt_value
             )
-            files_and_responses.append((file, response_for_a_file))
+            if response_for_a_file:
+                files_and_responses.append((file, response_for_a_file))
         return files_and_responses
 
     def get_response_from_a_file_with_specific_prompt(
         self, token: str, file_content: str, prompt: str, temperature: float = 1.0
     ) -> str:
-
         model_response = self._get_model_response(
             token=token, prompt=prompt, main_query=file_content, temperature=temperature
         )
@@ -44,6 +44,8 @@ class SenderService:
     ) -> str:
         """Comprises request for a specific file"""
         chunks_num = 1
+        if not len(main_query):
+            return ""
 
         while True:
             texts = self._split_into_chunks(string=main_query, chunks_num=chunks_num)
@@ -73,7 +75,6 @@ class SenderService:
                 response = response.json()
                 responses.append(response)
             try:
-
                 answer = "\n".join(
                     [
                         response["choices"][0]["message"]["content"]

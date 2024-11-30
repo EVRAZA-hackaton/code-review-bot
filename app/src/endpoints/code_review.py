@@ -34,6 +34,8 @@ async def code_review_handler(
     tg_file = await bot.get_file(message.document.file_id)
     file: io.BytesIO = await bot.download_file(tg_file.file_path)
 
-    await code_review_service.code_review(file_path=tg_file.file_path, file=file)
+    report = await code_review_service.code_review(
+        file_path=tg_file.file_path, file=file
+    )
 
-    return message.reply(text="done")
+    return message.reply_document(report, caption="Отчет по код-ревью")

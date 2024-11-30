@@ -8,3 +8,4 @@ class File:
     name: str
     data: str = dataclasses.field(repr=False)
     extension: FileExtensionEnum
+    file_path: str

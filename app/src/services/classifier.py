@@ -1,15 +1,13 @@
-from app.src.model.project import Project
+from app.src.model.constants import FileExtensionEnum, PromptEnum
 from app.src.model.directory import Directory
 from app.src.model.file import File
-from app.src.model.constants import PromptEnum, FileExtensionEnum
+from app.src.model.project import Project
 
 
 class ClassifierService:
-
     def _parse_dir(
         self, directory: Directory | Project
     ) -> list[tuple[File, PromptEnum]]:
-
         current_level_files: list[File] = directory.files
 
         current_level_files_enums: list[tuple[File, PromptEnum]] = []
@@ -30,5 +28,5 @@ class ClassifierService:
 
         return current_level_files_enums
 
-    def classify(self, project: Project) -> list[tuple[File, PromptEnum]]:
+    async def classify(self, project: Project) -> list[tuple[File, PromptEnum]]:
         return self._parse_dir(project)
