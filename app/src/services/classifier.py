@@ -31,6 +31,4 @@ class ClassifierService:
         return current_level_files_enums
 
     def classify(self, project: Project) -> list[tuple[File, PromptEnum]]:
-        # TODO add project structure prompts
-        # TODO add language-specific prompts
         return self._parse_dir(project)
