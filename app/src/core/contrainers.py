@@ -7,6 +7,7 @@ from app.src.services.code_review import CodeReviewService
 from app.src.services.parsing import ParsingService
 from app.src.services.exporter import ExporterService
 from app.src.services.sender import SenderService
+from app.src.services.answer import AnswerService
 
 
 class Container(containers.DeclarativeContainer):
@@ -14,6 +15,7 @@ class Container(containers.DeclarativeContainer):
     classifier_service = providers.Factory(ClassifierService)
     sender_service = providers.Factory(SenderService)
     exporter_service = providers.Factory(ExporterService)
+    answer_service = providers.Factory(AnswerService)
 
     code_review_service = providers.Factory(
         CodeReviewService,
@@ -21,6 +23,7 @@ class Container(containers.DeclarativeContainer):
         classifier_service=classifier_service,
         sender_service=sender_service,
         exporter_service=exporter_service,
+        answer_service=answer_service
     )
 
 
