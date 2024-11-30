@@ -70,7 +70,8 @@ class ParsingService:
         for item in directory_path.iterdir():
             if item.is_file():
                 try:
-                    data = item.read_bytes().decode("utf-8") 
+                    with open(item, 'r') as f:
+                        data = f.read()
                     fl = File(
                         name=item.name,
                         data=data,
