@@ -38,8 +38,12 @@ class CodeReviewService:
 
     async def __code_review_async(self, file_path: str, file: io.BytesIO, bot: Bot, chat_id: int, msg_id: int):
 
-        project = await self.parsing_service.parse(file_path=file_path, file=file)
-        classified_items = await self.classifier_service.classify(project)
-        answers = await self.sender_service.send(classified_items)
-        file = await self.exporter_service.export_to_markdown(answers)
-        await self.answer_service.answer(file, chat_id, msg_id, bot)
+        try:
+            project = await self.parsing_service.parse(file_path=file_path, file=file)
+            classified_items = await self.classifier_service.classify(project)
+            answers = await self.sender_service.send(classified_items)
+            file = await self.exporter_service.export_to_markdown(answers)
+            await self.answer_service.answer(file, chat_id, msg_id, bot)
+
+        except:
+            await self.answer_service.answer_error(chat_id, msg_id, bot)
